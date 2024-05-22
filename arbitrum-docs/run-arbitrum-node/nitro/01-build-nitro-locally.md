@@ -103,7 +103,10 @@ echo "export PATH=/opt/homebrew/bin:$PATH" >> ~/.zprofile && source ~/.zprofile
 Install essentials:
 
 ```bash
-brew install git curl make cmake npm go gvm golangci-lint wabt llvm gotestsum
+brew install git curl make cmake npm go golangci-lint wabt llvm gotestsum
+echo 'export PATH="/opt/homebrew/opt/llvm/bin:$PATH"' >> ~/.zshrc
+echo 'export LDFLAGS="-L/opt/homebrew/opt/llvm/lib"' >> ~/.zshrc
+echo 'export CPPFLAGS="-I/opt/homebrew/opt/llvm/include"' >> ~/.zshrc
 npm install --global yarn
 sudo mkdir -p /usr/local/bin
 sudo ln -s  /opt/homebrew/opt/llvm/bin/wasm-ld /usr/local/bin/wasm-ld
@@ -140,6 +143,8 @@ rustup default 1.73
 rustup target add wasm32-unknown-unknown --toolchain 1.73
 rustup target add wasm32-wasi --toolchain 1.73
 cargo install cbindgen
+rustup install nightly
+rustup component add rust-src --toolchain nightly
 ```
 
 ### Step 7. Configure Go [1.21](https://github.com/moovweb/gvm)
@@ -165,7 +170,7 @@ bash < <(curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/bins
 source "$HOME/.gvm/scripts/gvm"
 gvm install go1.21
 gvm use go1.21 --default
-curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.54.2
+curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.58.2
 ```
 
 If you use zsh, replace `bash` with `zsh`.
